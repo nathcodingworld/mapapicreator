@@ -13,15 +13,34 @@ const falso_1 = require("@ngneat/falso");
 const axios = require("axios").default;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield axios.get("http://localhost:3004/maps");
+        const res = yield axios.get("http://localhost:3004/mapcomplete");
         const api = [];
-        res.data.forEach((loc) => {
-            const fname = falso_1.randFirstName({ withAccents: false });
-            const lname = falso_1.randLastName({ withAccents: false });
-            const cname = falso_1.randCompanyName() + " - premiumbike";
-            api.push(Object.assign(Object.assign({ id: falso_1.randGitShortSha() }, falso_1.randAddress({ includeCountry: false })), { country: "Philippines", company: cname, location: loc, contacts: falso_1.randPhoneNumber({ countryCode: "PH" }), person: fname + " " + lname, email: falso_1.randEmail({ suffix: "com", provider: "gmail", firstName: fname, lastName: lname }), avatar: falso_1.randAvatar() }));
+        res.data.forEach((map) => {
+            if (map.Categories === "Branches") {
+                const fname = falso_1.randFirstName({ withAccents: false });
+                const lname = falso_1.randLastName({ withAccents: false });
+                const cname = falso_1.randCompanyName() + " - premiumbike";
+                api.push({
+                    id: falso_1.randGitShortSha(),
+                    Title: map.Title,
+                    Address: map.Address,
+                    City: map.City,
+                    State: map.State,
+                    Country: "Philippines",
+                    PostalCode: map.PostalCode,
+                    Region: map.Region,
+                    ContactNumber1: map.ContactNumber1,
+                    ContactNumber2: falso_1.randPhoneNumber({ countryCode: "PH" }),
+                    OpenHours: map.BankingHours,
+                    Company: cname,
+                    Location: [map.Latitude, map.Longitude],
+                    person: fname + " " + lname,
+                    email: falso_1.randEmail({ suffix: "com", provider: "gmail", firstName: fname, lastName: lname }),
+                    avatar: falso_1.randAvatar(),
+                });
+            }
         });
-        yield axios.post("http://localhost:3004/mapapi", api);
+        yield axios.post("http://localhost:3004/mapcompleteapi", api);
         console.log("done");
     }
     catch (error) {
