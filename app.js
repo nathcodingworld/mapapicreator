@@ -13,34 +13,43 @@ const falso_1 = require("@ngneat/falso");
 const axios = require("axios").default;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield axios.get("http://localhost:3004/mapcomplete");
+        const motor = yield axios.get("http://localhost:3004/motor");
+        const map = yield axios.get("http://localhost:3004/map");
         const api = [];
-        res.data.forEach((map) => {
-            if (map.Categories === "Branches") {
-                const fname = falso_1.randFirstName({ withAccents: false });
-                const lname = falso_1.randLastName({ withAccents: false });
-                const cname = falso_1.randCompanyName() + " - premiumbike";
-                api.push({
-                    id: falso_1.randGitShortSha(),
-                    Title: map.Title,
-                    Address: map.Address,
-                    City: map.City,
-                    State: map.State,
-                    Country: "Philippines",
-                    PostalCode: map.PostalCode,
-                    Region: map.Region,
-                    ContactNumber1: map.ContactNumber1,
-                    ContactNumber2: falso_1.randPhoneNumber({ countryCode: "PH" }),
-                    OpenHours: map.BankingHours,
-                    Company: cname,
-                    Location: [map.Latitude, map.Longitude],
-                    person: fname + " " + lname,
-                    email: falso_1.randEmail({ suffix: "com", provider: "gmail", firstName: fname, lastName: lname }),
-                    avatar: falso_1.randAvatar(),
-                });
-            }
+        // res.data.forEach((map: any) => {
+        //   if (map.Categories === "Branches") {
+        //     const fname = randFirstName({ withAccents: false });
+        //     const lname = randLastName({ withAccents: false });
+        //     const cname = randCompanyName() + " - premiumbike";
+        //     api.push({
+        //       id: randGitShortSha(),
+        //       Title: map.Title,
+        //       Address: map.Address,
+        //       City: map.City,
+        //       State: map.State,
+        //       Country: "Philippines",
+        //       PostalCode: map.PostalCode,
+        //       Region: map.Region,
+        //       ContactNumber1: map.ContactNumber1,
+        //       ContactNumber2: randPhoneNumber({ countryCode: "PH" }),
+        //       OpenHours: map.BankingHours,
+        //       Company: cname,
+        //       Location: [map.Latitude, map.Longitude],
+        //       person: fname + " " + lname,
+        //       email: randEmail({ suffix: "com", provider: "gmail", firstName: fname, lastName: lname }),
+        //       avatar: randAvatar(),
+        //     });
+        //   }
+        // });
+        map.data.forEach((mapa) => {
+            const avaialable = [];
+            motor.data.forEach((motora) => {
+                if (falso_1.randBoolean())
+                    avaialable.push(motora.reffid);
+            });
+            api.push(Object.assign(Object.assign({}, mapa), { motors: avaialable }));
         });
-        yield axios.post("http://localhost:3004/mapcompleteapi", api);
+        yield axios.post("http://localhost:3004/combine", api);
         console.log("done");
     }
     catch (error) {

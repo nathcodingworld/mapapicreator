@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "json-server --watch mapapi.json --port 3004",
-    "create": "nodemon app.js"
+    "start": "json-server --watch mapmotor.json --port 3004",
+    "create": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
